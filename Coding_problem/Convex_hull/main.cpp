@@ -1,0 +1,37 @@
+#include <iostream>
+#include <algorithm.cpp>
+using namespace std;
+
+int main()
+{
+    vector<vector<double>> points = {{0, 3}, {1, 1}, {2, 2}, {4, 4}, {0, 0}, {1, 2}, {3, 1}, {3, 3}};
+
+    // Jarvis_march algorithm
+    cout<<"Jarvis March Algorithm"<<endl;
+    Jarvis_march jarvis = Jarvis_march(points);
+    vector<Jarvis_march::Point> jarvisRes = jarvis.getConvexHull();
+
+    for(int i = 0;i<jarvisRes.size();i++){
+        cout<<jarvisRes[i].x<<" "<<jarvisRes[i].y<<endl;
+    }
+
+    // Graham Scan algorithm
+    cout<<"Graham Scan Algorithm"<<endl;
+    Graham_scan graham = Graham_scan(points);
+    vector<Graham_scan::Point> grahamRes = jarvis.getConvexHull();
+
+    for(int i = 0;i<grahamRes.size();i++){
+        cout<<grahamRes[i].x<<" "<<grahamRes[i].y<<endl;
+    }
+
+    // Andrew Monotone Chain algorithm
+    cout<<"Andrew Monotone Chain Algorithm"<<endl;
+    Andrew_monotone_chain andrew = Andrew_monotone_chain(points);
+    vector<Andrew_monotone_chain::Point> andrewRes = andrew.getConvexHull();
+
+    for(int i = 0;i<andrewRes.size();i++){
+        cout<<andrewRes[i].x<<" "<<andrewRes[i].y<<endl;
+    }
+
+    return 0;
+}
