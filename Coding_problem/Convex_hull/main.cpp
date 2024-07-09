@@ -5,6 +5,7 @@ using namespace std;
 int main()
 {
     vector<vector<double>> points = {{0, 3}, {1, 1}, {2, 2}, {4, 4}, {0, 0}, {1, 2}, {3, 1}, {3, 3}};
+    vector<vector<double>> points2 = {{0, 0}, {0, 4}, {-4, 0}, {5, 0}, {0, -6}, {1, 0}};
 
     // Jarvis_march algorithm
     cout<<"Jarvis March Algorithm"<<endl;
@@ -31,6 +32,15 @@ int main()
 
     for(int i = 0;i<andrewRes.size();i++){
         cout<<andrewRes[i].x<<" "<<andrewRes[i].y<<endl;
+    }
+
+    // Quick Hull algorithm
+    cout<<"Quick Hull Algorithm"<<endl;
+    Quick_hull quick = Quick_hull(points2);
+    vector<Quick_hull::Point> quickRes = quick.getConvexHull();
+
+    for(int i = 0;i<quickRes.size();i++){
+        cout<<quickRes[i].x<<" "<<quickRes[i].y<<endl;
     }
 
     return 0;

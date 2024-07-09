@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 using namespace std;
-#include "angleCompute.cpp"
-#include "polySeq.cpp"
+#include "angle3D.cpp"
+#include "polygon.cpp"
 
 double angleTest(){
     vector<vector<double>> points;

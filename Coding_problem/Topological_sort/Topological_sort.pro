@@ -4,6 +4,5 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        angleCompute.cpp \
-        main.cpp \
-        polySeq.cpp
+        course_select.cpp \
+        main.cpp

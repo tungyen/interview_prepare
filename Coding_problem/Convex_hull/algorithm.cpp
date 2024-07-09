@@ -96,4 +96,54 @@ public:
     }
 };
 
+class Quick_hull: public convexHull{
+public:
+    Quick_hull(vector<vector<double>> &p) : convexHull(p){}
+
+    double lineDist(Point &p1, Point &p2, Point &p){
+        double cross_val = (p2.x-p1.x) * (p.y-p1.y) - (p2.y-p1.y) * (p.x-p1.x);
+        return abs(cross_val);
+    }
+
+    void recursion(Point &p1, Point &p2, int &idx1, int &idx2, int side){
+        int idx = -1;
+        double maxDist = 0;
+
+        for(int i = 0;i<points.size();i++){
+            double dist = lineDist(p1, p2, points[i]);
+            if(cross(p1, p2, points[i]) == side && dist > maxDist){
+                idx = i;
+                maxDist = dist;
+            }
+        }
+
+        if(idx == -1){
+            if(!s.count(idx1)){
+                s.insert(idx1);
+                convexHullRes.push_back(p1);
+            }
+            if(!s.count(idx2)){
+                s.insert(idx2);
+                convexHullRes.push_back(p2);
+            }
+            return;
+        }
+
+        recursion(p1, points[idx], idx1, idx, -cross(p1, points[idx], p2));
+        recursion(points[idx], p2, idx, idx2, -cross(points[idx], p2, p1));
+    }
+
+    vector<Point> getConvexHull(){
+        int idx1 = 0;
+        int idx2 = points.size()-1;
+        recursion(points[0], points[points.size()-1], idx1, idx2, 1);
+        recursion(points[0], points[points.size()-1], idx1, idx2, -1);
+        return convexHullRes;
+    }
+
+private:
+    unordered_set<int> s;
+    vector<Point> convexHullRes;
+};
+
 
