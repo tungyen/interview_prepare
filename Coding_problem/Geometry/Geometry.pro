@@ -4,6 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        angle3D.cpp \
+        convexhull.cpp \
         main.cpp \
         polygon.cpp
+
+HEADERS += \
+    convexhull.h \
+    polygon.h

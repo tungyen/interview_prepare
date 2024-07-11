@@ -1,9 +1,9 @@
 #include <iostream>
-#include <algorithm.cpp>
+#include <convexhull.h>
+#include <polygon.h>
 using namespace std;
 
-int main()
-{
+void ConvexHullTest(){
     vector<vector<double>> points = {{0, 3}, {1, 1}, {2, 2}, {4, 4}, {0, 0}, {1, 2}, {3, 1}, {3, 3}};
     vector<vector<double>> points2 = {{0, 0}, {0, 4}, {-4, 0}, {5, 0}, {0, -6}, {1, 0}};
 
@@ -42,6 +42,29 @@ int main()
     for(int i = 0;i<quickRes.size();i++){
         cout<<quickRes[i].x<<" "<<quickRes[i].y<<endl;
     }
+}
 
+double angleTest(){
+    vector<vector<double>> points;
+    for(int i=0;i<3;i++){
+        vector<double> p = {double(i), pow(i,2), pow(i, 3)};
+        points.push_back(p);
+    }
+
+    angle3D ang = angle3D();
+    double res = ang.computeAngle(points);
+    cout<<"The angle is: "<<res<<endl;
+    return res;
+}
+
+double polySeqTest(){
+    vector<vector<double>> points = {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0.5, 0.5}};
+    Polygon poly = Polygon(points);
+}
+
+int main()
+{
+    ConvexHullTest();
+    polySeqTest();
     return 0;
 }
