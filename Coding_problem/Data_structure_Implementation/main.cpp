@@ -1,5 +1,6 @@
 #include <iostream>
-#include <STL.cpp>
+#include <stl.h>
+#include <tree.h>
 using namespace std;
 
 void vectorTest(){
@@ -39,10 +40,23 @@ void stackTest(){
     cout<<st.top()<<endl;
 }
 
+void splayTreeTest(){
+    SplayTree::Node* root = nullptr;
+    SplayTree splay = SplayTree(root);
+    root = splay.insert(root, 100);
+    root = splay.insert(root, 50);
+    root = splay.insert(root, 200);
+    root = splay.insert(root, 40);
+    root = splay.insert(root, 60);
+    cout << "Preorder traversal of the modified Splay tree:" << endl;
+    splay.preOrder(root);
+}
+
 int main()
 {
     vectorTest();
     queueTest();
     stackTest();
+    splayTreeTest();
     return 0;
 }

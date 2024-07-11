@@ -4,5 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        STL.cpp \
-        main.cpp
+        main.cpp \
+        stl.cpp \
+        tree.cpp
+
+HEADERS += \
+    stl.h \
+    tree.h
