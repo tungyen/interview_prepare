@@ -23,6 +23,80 @@ double Polygon::angle(vector<double> &start, vector<double> &end){
     return atan2(end[1]-start[1], end[0]-start[0]);
 }
 
+double Polygon::getArea(){
+    double area = 0.0;
+    for(int i=vertex.size()-1, j = 0;j<vertex.size();i = j++){
+        double cur = vertex[i][0] * vertex[j][1] - vertex[i][1]*vertex[j][0];
+        area += cur;
+    }
+    return area;
+}
+
+vector<double> Polygon::getMassCenter(){
+    double cx = 0.0;
+    double cy = 0.0;
+    double w = 0.0;
+
+    for(int i=vertex.size()-1, j = 0;j<vertex.size();i = j++){
+        double cross = vertex[i][0]*vertex[j][1] - vertex[i][1]*vertex[j][0];
+        cx += (vertex[i][0] + vertex[j][0]) * cross;
+        cy += (vertex[i][1] + vertex[j][1]) * cross;
+        w += cross;
+    }
+    return {cx/(w*3), cy/(3*w)};
+}
+
+double Polygon::cross(vector<double> &o, vector<double> &p, vector<double> &q){
+    return (p[0]-o[0]) * (q[1]-o[1]) - (p[1] - o[1]) * (q[0] - o[0]);
+}
+
+bool Polygon::checkInside(vector<double> &p){
+    for(int i=vertex.size()-1, j = 0;j<vertex.size();i = j++){
+        vector<double> fir = {vertex[i][0] - p[0], vertex[i][1] - p[1]};
+        vector<double> sec = {vertex[j][0] - p[0], vertex[j][1] - p[1]};
+        double cross = fir[0]*sec[1] - fir[1]*sec[0];
+        if(cross < 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Polygon::checkInsideOnline(vector<double> &p){
+    int l = 1;
+    int r = vertex.size()-1;
+    int line = -1;
+
+    while(l < r){
+        int mid = l + (r-l)/2;
+        if(cross(vertex[0], p, vertex[mid]) > 0){
+            line = mid;
+            r = mid-1;
+        }
+        else{
+            l = mid+1;
+        }
+    }
+    return cross(vertex[line-1], p, vertex[line]) < 0;
+}
+
+double Polygon::interpolateX(double y, vector<double> &p1, vector<double> &p2){
+    if(p1[1] == p2[1]){
+        return p1[0];
+    }
+    return p1[0] + (p2[0]-p1[0]) * (y-p1[1]) / (p2[1]-p1[1]);
+}
+
+bool Polygon::checkOnPolygon(vector<double> &p){
+    bool res = false;
+    for(int i=vertex.size()-1, j = 0;j<vertex.size();i = j++){
+        if((vertex[i][1] > p[1] != vertex[j][1] > p[1]) && p[0] < interpolateX(p[1], vertex[i], vertex[j])){
+            res = !res;
+        }
+    }
+    return res;
+}
+
 
 // Angle3D
 double angle3D::computeAngle(vector<vector<double>> &points){

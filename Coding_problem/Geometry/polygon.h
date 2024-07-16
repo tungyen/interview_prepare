@@ -14,6 +14,13 @@ class Polygon
 public:
     Polygon(vector<vector<double>> &points);
     double angle(vector<double> &start, vector<double> &end);
+    double getArea();
+    vector<double> getMassCenter();
+    double cross(vector<double> &o, vector<double> &p, vector<double> &q);
+    bool checkInside(vector<double> &p);
+    bool checkInsideOnline(vector<double> &p);
+    double interpolateX(double y, vector<double> &p1, vector<double> &p2);
+    bool checkOnPolygon(vector<double> &p);
 
 
 private:
