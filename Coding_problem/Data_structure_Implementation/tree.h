@@ -6,8 +6,7 @@ using namespace std;
 
 
 
-class SplayTree
-{
+class SplayTree{
 public:
     class Node {
     public:
@@ -24,6 +23,25 @@ public:
     void preOrder(Node* node);
     void getRes();
 
+private:
+    Node* root;
+};
+
+class BST{
+public:
+    class Node{
+    public:
+        int val;
+        Node *left, *right;
+        Node(int v):val(v), left(nullptr), right(nullptr){}
+    };
+    BST(Node* r);
+    Node* search(int val);
+    void insert(int val);
+    void remove(int val);
+    void helper(Node* root);
+    void inorder();
+    Node* getRoot();
 private:
     Node* root;
 };

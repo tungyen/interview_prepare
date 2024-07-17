@@ -87,4 +87,158 @@ void SplayTree::getRes(){
     preOrder(root);
 }
 
+BST::BST(Node* r){
+    root = r;
+}
+
+BST::Node* BST::search(int val){
+    Node* cur = root;
+    while(cur){
+        if(cur->val == val){
+            return cur;
+        }
+        else if(cur->val > val){
+            cur = cur->left;
+        }
+        else{
+            cur = cur->right;
+        }
+    }
+    return nullptr;
+}
+
+void BST::insert(int val){
+    Node* newNode = new Node(val);
+    Node* cur = root;
+    Node* parent;
+
+    if(!root){
+        root = newNode;
+    }
+    else{
+        while(cur){
+            parent = cur;
+            if(cur->val < val){
+                cur = cur->right;
+            }
+            else if(cur->val > val){
+                cur = cur->left;
+            }
+            else{
+                return;
+            }
+        }
+        if(parent->val < val){
+            parent->right = newNode;
+        }
+        else{
+            parent->left = newNode;
+        }
+    }
+}
+
+void BST::remove(int val){
+
+    // Get the parent node of desire delete node
+    Node* cur = root;
+    Node* parent = cur;
+    Node* child;
+    int pos = 0;
+    bool find = false;
+    while(cur){
+        if(cur->val == val){
+            find = true;
+            break;
+        }
+        else{
+            parent = cur;
+            if(cur->val > val){
+                cur = cur->left;
+                pos = -1;
+            }
+            else{
+                cur = cur->right;
+                pos = 1;
+            }
+        }
+    }
+
+    if(!find){cout<<"No such element."<<endl;return;}
+    if(parent){
+        switch(pos){
+        case -1:
+            child = parent->left;
+            break;
+        case 1:
+            child = parent->right;
+            break;
+        case 0:
+            child = parent;
+            break;
+        }
+
+        if(!child->left){
+            if(parent == child){
+                root = root->right;
+            }
+            else{
+                if(pos == 1){
+                    parent->right = child->right;
+                }
+                else{
+                    parent->left = child->right;
+                }
+            }
+        }
+        else if(!child->right){
+            if(parent == child){
+                root = root->left;
+            }
+            else{
+                if(pos == 1){
+                    parent->right = child->left;
+                }
+                else{
+                    parent->left = child->left;
+                }
+            }
+        }
+        else{
+            parent = child;
+            Node* next = child->left;
+            while(next->right){
+                parent = next;
+                next = next->right;
+            }
+            child->val = next->val;
+            if(parent == child){
+                parent->left = next->left;
+            }
+            else{
+                parent->right = next->left;
+            }
+            delete next;
+        }
+    }
+}
+
+void BST::helper(BST::Node* root){
+    if(!root){
+        return;
+    }
+    helper(root->left);
+    cout<<root->val<<" ";
+    helper(root->right);
+}
+
+void BST::inorder(){
+    helper(getRoot());
+    cout<<endl;
+}
+
+BST::Node* BST::getRoot(){
+    return root;
+}
+
+
 
