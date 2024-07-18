@@ -240,5 +240,61 @@ BST::Node* BST::getRoot(){
     return root;
 }
 
+// Red Black Tree
+RBTree::RBTree(RBTNode* r){
+    root = r;
+}
+
+void RBTree::leftRotate(RBTNode* x){
+    if(!x){return;}
+
+    RBTNode* y = x->right;
+    if(!y){return;}
+    x->right = y->left;
+    if(!y->left){
+        y->left->parent = x;
+    }
+    y->parent = x->parent;
+    if(!x->parent){
+        root = y;
+    }
+    else{
+        if(x->parent->left == x){
+            x->parent->left = y;
+        }
+        else{
+            x->parent->right = y;
+        }
+    }
+    y->left = x;
+    x->parent = y;
+}
+
+void RBTree::rightRotate(RBTNode* x){
+    if(!x){return;}
+    RBTNode* y = x->left;
+    if(!y){return;}
+    x->left = y->right;
+    if(!y->right){
+        y->right->parent = x;
+    }
+    y->parent = x->parent;
+    if(!x->parent){
+        root = y;
+    }
+    else{
+        if(x->parent->right == x){
+            x->parent->right = y;
+        }
+        else{
+            x->parent->left = y;
+        }
+    }
+    y->right = x;
+    x->parent = y;
+}
+
+
+
 
 

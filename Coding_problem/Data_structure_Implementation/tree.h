@@ -5,7 +5,6 @@
 using namespace std;
 
 
-
 class SplayTree{
 public:
     class Node {
@@ -44,6 +43,42 @@ public:
     Node* getRoot();
 private:
     Node* root;
+};
+
+
+// RBTree
+enum RBTColor{RED, BLACK};
+class RBTNode{
+public:
+    int val;
+    RBTColor color;
+    RBTNode* left;
+    RBTNode* right;
+    RBTNode* parent;
+    RBTNode(int v, RBTColor c) : val(v), color(c){}
+};
+
+class RBTree{
+public:
+    RBTree(RBTNode* r);
+    ~RBTree();
+
+    // Traversal
+    void preorder();
+    void inorder();
+    void postorder();
+
+    RBTNode* search(int val);
+    RBTNode* successor(RBTNode* node);
+    RBTNode* predecessor(RBTNode* node);
+
+    void insert(int val);
+    void remove(int val);
+
+private:
+    RBTNode* root;
+    void leftRotate(RBTNode* x);
+    void rightRotate(RBTNode* x);
 };
 
 #endif // TREE_H
