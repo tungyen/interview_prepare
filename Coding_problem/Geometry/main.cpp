@@ -1,6 +1,7 @@
 #include <iostream>
 #include <convexhull.h>
 #include <polygon.h>
+#include <bresenham.h>
 using namespace std;
 
 void ConvexHullTest(){
@@ -57,14 +58,25 @@ double angleTest(){
     return res;
 }
 
-double polySeqTest(){
+void polySeqTest(){
     vector<vector<double>> points = {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0.5, 0.5}};
     Polygon poly = Polygon(points);
+}
+
+void BresenhamTest(){
+    cout<<"Bresenham Test!"<<endl;
+    Bresenham bsh = Bresenham();
+    bsh.getLine(0, 0, 5, 2);
+    vector<Bresenham::cell> line = bsh.getRes();
+    for(auto ele:line){
+        cout<<ele.x<<" "<<ele.y<<endl;
+    }
 }
 
 int main()
 {
     ConvexHullTest();
     polySeqTest();
+    BresenhamTest();
     return 0;
 }

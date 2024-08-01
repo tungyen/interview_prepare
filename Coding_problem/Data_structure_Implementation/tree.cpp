@@ -245,6 +245,223 @@ RBTree::RBTree(RBTNode* r){
     root = r;
 }
 
+void RBTree::preorder(RBTNode* node){
+    if(!node){
+        return;
+    }
+    cout<<node->val<<endl;
+    preorder(node->left);
+    preorder(node->right);
+}
+
+void RBTree::inorder(RBTNode* node){
+    if(!node){
+        return;
+    }
+    inorder(node->left);
+    cout<<node->val<<endl;
+    inorder(node->right);
+}
+
+void RBTree::postorder(RBTNode* node){
+    if(!node){
+        return;
+    }
+    postorder(node->left);
+    postorder(node->right);
+    cout<<node->val<<endl;
+}
+
+void RBTree::insert(int val){
+    RBTNode* node = new RBTNode(val, RED);
+    RBTNode* parent = nullptr;
+    RBTNode* cur = root;
+
+    while(cur){
+        parent = cur;
+        if(val < cur->val){
+            cur = cur->left;
+        }
+        else if(val == cur->val){
+            return;
+        }
+        else{
+            cur = cur->right;
+        }
+    }
+    node->parent = parent;
+    if(!parent){
+        if(val < parent->val){
+            parent->left = node;
+        }
+        else{
+            parent->right = node;
+        }
+    }
+    else{
+        root = node;
+        return;
+    }
+    insertFixUp(node);
+}
+
+void RBTree::remove(int val){
+    RBTNode* node = root;
+    bool find = false;
+    while(node){
+        if(val < node->val){
+            node = node->left;
+        }
+        else if(node->val == val){
+            find = true;
+            break;
+        }
+        else if(node->val < val){
+            node = node->right;
+        }
+    }
+    if(!find){
+        return;
+    }
+
+    RBTNode* child;
+    RBTNode* parent;
+
+    if(node->left && node->right){
+        RBTNode* replace = node;
+        replace = node->right;
+
+        while(replace->left){
+            replace = replace->left;
+        }
+
+        if(node->parent){
+            if(node->parent->left == node){
+                node->parent->left = replace;
+            }
+            else{
+                node->parent->right = replace;
+            }
+        }
+        else{
+            root = replace;
+        }
+        child = replace->right;
+        parent = replace->parent;
+        RBTColor c = replace->color;
+        if(parent == node){
+            parent = replace;
+        }
+        else{
+            if(child){
+                child->parent = parent;
+            }
+            parent->left = child;
+            replace->right = node->right;
+            node->right->parent = replace;
+        }
+
+        replace->parent = node->parent;
+        replace->color = node->color;
+        replace->left = node->left;
+        node->left->parent = replace;
+
+        if (c == BLACK)
+            removeFixUp(child, parent);
+
+        delete node;
+        return;
+    }
+
+    if (node->left)
+        child = node->left;
+    else
+        child = node->right;
+
+    parent = node->parent;
+    RBTColor c = node->color;
+
+    if(child)
+        child->parent = parent;
+
+    if(parent){
+        if (parent->left == node)
+            parent->left = child;
+        else
+            parent->right = child;
+    }
+    else
+        root = child;
+
+    if (c == BLACK)
+        removeFixUp(child, parent);
+    delete node;
+}
+
+void RBTree::insertFixUp(RBTNode* node){
+    RBTNode* parent;
+    RBTNode* gparent;
+
+    while((parent = node->parent) && parent->color == RED){
+        gparent = parent->parent;
+
+        if(parent == gparent->left){
+            // Case 1: Uncle is Red
+            {
+                RBTNode* uncle = gparent->right;
+                if (uncle && uncle->color == RED)
+                {
+                    uncle->color = BLACK;
+                    parent->color = BLACK;
+                    gparent->color = BLACK;
+                    node = gparent;
+                    continue;
+                }
+            }
+
+            // Case 2: Uncle is Black, and node is right child
+            if (parent->right == node)
+            {
+                RBTNode *tmp;
+                leftRotate(parent);
+                tmp = parent;
+                parent = node;
+                node = tmp;
+            }
+            // Case 3: Uncle is Black, and node is left child
+            parent->color = BLACK;
+            gparent->color = RED;
+            rightRotate(gparent);
+        }
+        else{
+            // Case 1: Uncle is Red{
+            RBTNode *uncle = gparent->left;
+            if (uncle && uncle->color == RED){
+                uncle->color = BLACK;
+                parent->color = BLACK;
+                gparent->color = BLACK;
+                node = gparent;
+                continue;
+            }
+
+            // Case 2: Uncle is Black, and node is left child
+            if (parent->left == node){
+                RBTNode *tmp;
+                rightRotate(parent);
+                tmp = parent;
+                parent = node;
+                node = tmp;
+            }
+
+            // Case 3: Uncle is Black, and node is right child
+            parent->color = BLACK;
+            gparent->color = RED;
+            leftRotate(gparent);
+        }
+    }
+    root->color = BLACK;
+}
+
 void RBTree::leftRotate(RBTNode* x){
     if(!x){return;}
 

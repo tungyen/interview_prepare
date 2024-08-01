@@ -38,11 +38,11 @@ public:
     Node* search(int val);
     void insert(int val);
     void remove(int val);
-    void helper(Node* root);
     void inorder();
     Node* getRoot();
 private:
     Node* root;
+    void helper(Node* root);
 };
 
 
@@ -64,9 +64,9 @@ public:
     ~RBTree();
 
     // Traversal
-    void preorder();
-    void inorder();
-    void postorder();
+    void preorder(RBTNode* node);
+    void inorder(RBTNode* node);
+    void postorder(RBTNode* node);
 
     RBTNode* search(int val);
     RBTNode* successor(RBTNode* node);
@@ -79,6 +79,8 @@ private:
     RBTNode* root;
     void leftRotate(RBTNode* x);
     void rightRotate(RBTNode* x);
+    void insertFixUp(RBTNode* node);
+    void removeFixUp(RBTNode* child, RBTNode* parent);
 };
 
 #endif // TREE_H
