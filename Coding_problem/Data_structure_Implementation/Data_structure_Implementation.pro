@@ -4,10 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        lru.cpp \
         main.cpp \
-        stl.cpp \
-        tree.cpp
+        stl.cpp
 
 HEADERS += \
-    stl.h \
-    tree.h
+    lru.h \
+    stl.h

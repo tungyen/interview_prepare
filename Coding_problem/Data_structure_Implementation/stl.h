@@ -2,12 +2,12 @@
 #define STL_H
 
 #include <iostream>
-using namespace std;
+//using namespace std;
 
-class vector{
+class Vector{
 public:
-    vector():data(nullptr), size(0), capacity(0){}
-    ~vector();
+    Vector():data(nullptr), size(0), capacity(0){}
+    ~Vector();
 
     size_t getSize() const;
     size_t getCapacity() const;

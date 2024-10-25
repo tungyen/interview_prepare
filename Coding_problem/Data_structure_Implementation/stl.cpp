@@ -1,33 +1,33 @@
 #include "stl.h"
 
 // Vector Class
-vector::~vector(){
+Vector::~Vector(){
     delete[] data;
 }
 
-size_t vector::getSize()const{
+size_t Vector::getSize()const{
     return size;
 }
 
-size_t vector::getCapacity()const{
+size_t Vector::getCapacity()const{
     return capacity;
 }
 
-void vector::push_back(int val){
+void Vector::push_back(int val){
     if (size == capacity) {
         resize(capacity == 0 ? 1 : capacity * 2);
     }
     data[size++] = val;
 }
 
-void vector::pop_back(){
+void Vector::pop_back(){
     if(size == 0){
         return;
     }
     size--;
 }
 
-void vector::erase(size_t index) {
+void Vector::erase(size_t index) {
     if (index >= size) {
         throw std::out_of_range("Index out of range");
     }
@@ -37,26 +37,26 @@ void vector::erase(size_t index) {
     size--;
 }
 
-void vector::print(){
+void Vector::print(){
     for(int i = 0;i<size;i++){
         if(i == 0){
-            cout<<data[i];
+            std::cout<<data[i];
         }
         else{
-            cout<<" "<<data[i];
+            std::cout<<" "<<data[i];
         }
     }
-    cout<<endl;
+    std::cout<<std::endl;
 }
 
-int& vector::operator[](size_t index) {
+int& Vector::operator[](size_t index) {
     if (index >= size) {
         throw std::out_of_range("Index out of range");
     }
     return data[index];
 }
 
-void vector::resize(size_t new_capacity){
+void Vector::resize(size_t new_capacity){
     int* new_data = new int[new_capacity];
     for(int i = 0;i<size;i++){
         new_data[i] = data[i];
@@ -138,7 +138,7 @@ bool stack::isFull(){
 
 int stack::top(){
     if(empty()){
-        cout << "Stack is empty." << endl;
+        std::cout << "Stack is empty." << std::endl;
         return -1;
     }
     else{
