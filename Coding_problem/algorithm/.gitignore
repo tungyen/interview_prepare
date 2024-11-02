@@ -1,0 +1,15 @@
+venv
+*.qtc_clangd
+*.pro.user
+*.obj
+*.json
+*.debug
+/.qmake.cache
+/.qmake.stash
+Makefile*
+*.pro.user*
+CMakeLists.txt.user*
+*.exe
+*.layout
+*qmake.stash
+eigen
