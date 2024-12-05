@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    //avgTest();
-    maxTest();
+    avgTest();
+    //maxTest();
     return 0;
 }
