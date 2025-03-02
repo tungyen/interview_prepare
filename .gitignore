@@ -15,3 +15,4 @@ CMakeLists.txt.user*
 eigen
 release
 lib
+*.docx

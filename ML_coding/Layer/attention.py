@@ -1,5 +1,8 @@
 import numpy as np
 from layer import layer
+import math
+import torch
+from torch import nn
 
 class NumpyAttention(layer):
     def __init__(self):
@@ -47,3 +50,24 @@ class NumpyAttention(layer):
         grad_key = np.dot(grad_scores.transpose(0, 2, 1), query)
 
         return grad_query, grad_key, grad_value
+    
+    
+class AttentionBlock(nn.Module):
+    def __init__(self, channels, head=2):
+        self.channels = channels
+        self.head = head
+        
+        assert channels % head == 0
+        
+        self.qkv = nn.Conv2d(channels, channels * 3, kernel_size=1, bias = False)
+    
+    def forward(self, x):
+        B, C, N = x.shape
+        qkv = self.qkv(x)
+        q, k, v = qkv.reshape(B*self.head, -1, N).chunk(3, dim=1)
+        scale = 1. / math.sqrt(C // self.head)
+        attn = torch.einsum("bct, bcs->bts", q*scale, k*scale)
+        attn = torch.softmax(attn, dim=-1)
+        attn = torch.einsum("bts, bcs->bct", attn, v)
+        attn = attn.reshape(B, -1, N)
+        return attn
